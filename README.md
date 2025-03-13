@@ -29,7 +29,7 @@ Here are three things that drive me mad:
 1. Lists
     
 ## Fun Fact!
-Did you know that under the ![Atomic Energy Act 1945](https://www.legislation.govt.nz/act/public/1945/0041/latest/whole.html#DLM239284), schools and universities in New Zealand are permitted to hold one pound of uranium and one pound of thorium for "education experiments."
+Did you know that under the [Atomic Energy Act 1945](https://www.legislation.govt.nz/act/public/1945/0041/latest/whole.html#DLM239284), schools and universities in New Zealand are permitted to hold one pound of uranium and one pound of thorium for "education experiments."
 
 
 ![](https://media1.tenor.com/m/eaGpCyerDTcAAAAd/cat-kitty.gif)
