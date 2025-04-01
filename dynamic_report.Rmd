@@ -1,0 +1,108 @@
+---
+title: My dynamic report
+output: html_fragment
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+library(tidyverse)
+
+```
+
+```{css}
+
+h1, h2, h3{
+  color: Navy;
+}
+
+* {
+  font-family: 'Calibri';
+}
+
+```
+
+## Investigating trends in social media use and short form media.
+
+Below are summary graphs of the data we collected through the use of an observation survey. The goal of the survey was to investigate the frequency of seeing certain types of content while using social media. We also wanted to investigate the extent in which a user would engage with short form content during a social media session. We defined a social media session as the time from opening the app/site to exiting the app for any reason.
+
+```{r}
+csv = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSZIU0wE0jAXDizc6s7jCxNZwFaqb5rQ2GaM5eXtRElWGzUh8mpszlNPigT_wuR5djnoWDLxJtqgpJ6/pub?output=csv"
+logged_data = read_csv(csv)
+
+latest_data = rename(logged_data,
+       shorts_bool = 2,
+       session_mins = 3,
+       politics = 4,
+       influencers = 5,
+       brain_rot = 6,
+       news = 7,
+       clips = 8,
+       memes = 9,
+       shorts_percent = 10
+       )
+#identifying summary values
+longest_session = max(latest_data[3])
+shortest_session = min(latest_data[3])
+total_entries = nrow(latest_data)
+data_frame = tibble(latest_data[3])
+
+#creating separate data frame to work with just the minutes
+mean_session = mean(data_frame$session_mins, na.rm = TRUE) %>%
+  round(digits = 2)
+median_session = median(data_frame$session_mins,na.rm = TRUE) %>%
+  round(digits = 2)
+
+# putting all of the summary values into one frame
+data_frame_stats = tibble(session_type = c("shortest_session", "longest_session",
+                                           "mean_session", "median_session"),
+                          value = c(shortest_session, longest_session, mean_session, median_session))
+
+
+ggplot(data = data_frame_stats)+
+  geom_bar(aes (x = session_type, y = value, fill = session_type), stat = "identity") +  #change the stat type from count to identity 
+  labs(title = "Comparing different summary values in a social media session",
+       x = "Session type",
+       y = "Time in minutes")
+
+ggplot(data = latest_data) +
+  geom_bar(aes(x = shorts_bool, fill = shorts_bool))+
+  labs(title = "Count of respondants who watched short form content when using social media",
+       x = "Participants who watched short form content during their latest social media session")
+
+ggplot(data = latest_data) +
+  geom_bar(aes(x = clips, fill = shorts_bool )) +
+  labs(title = "Comparing the amount of people who watch short form content and how often
+       they see clips of TV shows and movies in their feed",
+       x = "Frequency of seeing clips of TV shows and movies in their feed")
+  
+
+ggplot(data =latest_data) +
+  geom_bar(aes(x = brain_rot, fill = shorts_bool )) +
+  labs(title = "Comparing the amount of people who watch short form content and their
+       frequency of viewing brain rot content")
+
+ggplot(data=latest_data) +
+  geom_bar(aes(x = politics, fill = shorts_bool )) +
+  labs(title = "Comparing the amount of poeple who watch short form content and
+       their frequency of viewing political content")
+
+ggplot(data=latest_data)+
+  geom_bar(aes(x = shorts_percent, fill = shorts_bool))+
+  labs(title = "Comparing how much of a social media session is comprised of short
+       form content")
+
+
+```
+
+
+I elected to not remove NA values in the final graph as it gives us insight on
+the social media sessions where no short form content is viewed. 
+
+
+## Demonstrating inline dyanmic comments:
+### Here are some of the key summary values included in the graphs:    
+**Mean session time** = `r mean_session` minutes  
+**Median session time** = `r median_session` minutes  
+**Shortest session time** = `r shortest_session` minutes  
+**Longest session time ** = `r longest_session` minutes  
+**Total amount of responses** = `r total_entries` responses
